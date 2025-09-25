@@ -17,9 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.pnc.PncLibrary;
 import org.smartregister.pnc.domain.YamlConfigItem;
@@ -36,9 +34,9 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.robolectric.util.ReflectionHelpers.setField;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -68,10 +66,7 @@ public class PncProfileOverviewAdapterTest {
     private PncRulesEngineHelper pncRulesEngineHelper;
 
     @Before
-    @PrepareForTest(LayoutInflater.class)
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         adapter = new PncProfileOverviewAdapter(context, mData);
         setField(adapter, "mInflater", mInflater);
     }

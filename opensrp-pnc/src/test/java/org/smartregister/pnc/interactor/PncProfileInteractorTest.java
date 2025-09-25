@@ -9,8 +9,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 import org.smartregister.Context;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
@@ -70,7 +70,10 @@ public class PncProfileInteractorTest extends BaseTest {
         ECSyncHelper ecSyncHelper = Mockito.mock(ECSyncHelper.class);
         Mockito.doReturn(ecSyncHelper).when(pncProfileInteractor).getSyncHelper();
 
-        Whitebox.invokeMethod(pncProfileInteractor, "saveRegistration", pncEventClient, registrationForm, params);
+        ReflectionHelpers.callInstanceMethod(pncProfileInteractor, "saveRegistration",
+                ClassParameter.from(PncEventClient.class, pncEventClient),
+                ClassParameter.from(String.class, registrationForm),
+                ClassParameter.from(RegisterParams.class, params));
 
         Mockito.verify(ecSyncHelper).addEvent((String) syncHelperAddEventArgumentCaptor.capture(), (JSONObject) syncHelperAddEventArgumentCaptor.capture(), (String) syncHelperAddEventArgumentCaptor.capture());
 

@@ -8,9 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
 import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Obs;
 import org.smartregister.pnc.BaseTest;
@@ -34,7 +33,6 @@ public class PncMiniClientProcessorForJavaTest extends BaseTest {
     @Before
     public void setUp() {
         pncMiniClientProcessorForJava = new PncMiniClientProcessorForJava(Mockito.mock(Context.class));
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test

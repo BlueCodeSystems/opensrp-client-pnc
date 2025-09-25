@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.smartregister.pnc.utils.PncConstants;
 
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
-import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.mockito.Mockito.spy;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PncEditTextFactoryTest {
@@ -35,8 +34,6 @@ public class PncEditTextFactoryTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         pncEditTextFactory = spy(new PncEditTextFactory());
     }
 

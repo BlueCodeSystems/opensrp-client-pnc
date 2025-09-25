@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
@@ -41,7 +40,6 @@ public class PncMedicInfoFormProcessingTest extends BaseRobolectricTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         pncMedicInfoFormProcessing = new PncMedicInfoFormProcessing();
     }
 

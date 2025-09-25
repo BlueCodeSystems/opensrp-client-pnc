@@ -11,9 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.pnc.utils.PncDbConstants;
 
@@ -27,11 +25,11 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.robolectric.util.ReflectionHelpers.setField;
+import static org.mockito.Mockito.when;
+import static org.robolectric.util.ReflectionHelpers.setStaticField;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientLookUpListAdapterTest {
@@ -47,22 +45,19 @@ public class ClientLookUpListAdapterTest {
     @Mock
     private LayoutInflater mInflater;
 
-    @Mock
-    private static ClientLookUpListAdapter.ClickListener clickListener;
+    private ClientLookUpListAdapter.ClickListener clickListener;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         adapter = new ClientLookUpListAdapter(data, context);
-        setField(adapter, "clickListener", clickListener);
-        setField(adapter, "mInflater", mInflater);
+        setStaticField(ClientLookUpListAdapter.class, "clickListener", null);
+        clickListener = Mockito.mock(ClientLookUpListAdapter.ClickListener.class);
+        setStaticField(ClientLookUpListAdapter.class, "clickListener", clickListener);
+        org.robolectric.util.ReflectionHelpers.setField(adapter, "mInflater", mInflater);
     }
 
     @Test
-    public void onCreateViewHolderShouldReturnMyViewHolder() throws Exception {
-
-
+    public void onCreateViewHolderShouldReturnMyViewHolder() {
         View itemView = mock(View.class);
         ViewGroup parent = mock(ViewGroup.class);
         ClientLookUpListAdapter.MyViewHolder viewHolder = mock(ClientLookUpListAdapter.MyViewHolder.class);
@@ -76,15 +71,14 @@ public class ClientLookUpListAdapterTest {
 
     @Test
     public void onBindViewHolderShouldVerifyImplementation() {
-
         TextView txtName = mock(TextView.class);
         View itemView = mock(View.class);
         TextView txtDetails = mock(TextView.class);
 
         ClientLookUpListAdapter.MyViewHolder viewHolder = mock(ClientLookUpListAdapter.MyViewHolder.class);
-        setField(viewHolder, "txtName", txtName);
-        setField(viewHolder, "itemView", itemView);
-        setField(viewHolder, "txtDetails", txtDetails);
+        org.robolectric.util.ReflectionHelpers.setField(viewHolder, "txtName", txtName);
+        org.robolectric.util.ReflectionHelpers.setField(viewHolder, "itemView", itemView);
+        org.robolectric.util.ReflectionHelpers.setField(viewHolder, "txtDetails", txtDetails);
 
         String firstName = "First Name";
         String lastName = "Last Name";
@@ -92,13 +86,13 @@ public class ClientLookUpListAdapterTest {
 
         String caseId = "3sf-3-323ef3-fdsf3";
         String relationalId = "3223-s-df-3";
-        String type = "unkonwn";
+        String type = "unknown";
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put(PncDbConstants.Column.Client.FIRST_NAME, firstName);
         columnsMap.put(PncDbConstants.Column.Client.LAST_NAME, lastName);
         columnsMap.put(PncDbConstants.KEY.OPENSRP_ID, openSrpId);
 
-        CommonPersonObject commonPersonObject = PowerMockito.spy(new CommonPersonObject(caseId, relationalId, columnsMap, type));
+        CommonPersonObject commonPersonObject = Mockito.spy(new CommonPersonObject(caseId, relationalId, columnsMap, type));
         commonPersonObject.setColumnmaps(columnsMap);
 
         when(data.get(anyInt())).thenReturn(commonPersonObject);
@@ -115,7 +109,6 @@ public class ClientLookUpListAdapterTest {
 
     @Test
     public void getItemCountShouldReturnValidSize() {
-
         int size = 1;
         when(data.size()).thenReturn(size);
         assertEquals(size, adapter.getItemCount());
@@ -123,12 +116,10 @@ public class ClientLookUpListAdapterTest {
 
     @Test
     public void onClickShouldVerifyListener() {
-
         View view = mock(View.class);
         ClientLookUpListAdapter.MyViewHolder viewHolder = new ClientLookUpListAdapter.MyViewHolder(view);
         viewHolder.onClick(view);
 
         verify(clickListener, Mockito.times(1)).onItemClick(view);
     }
-
 }

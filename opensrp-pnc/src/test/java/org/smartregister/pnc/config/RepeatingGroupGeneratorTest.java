@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.smartregister.pnc.BaseTest;
 import org.smartregister.pnc.utils.PncDbConstants;
 
@@ -24,7 +23,6 @@ public class RepeatingGroupGeneratorTest extends BaseTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test

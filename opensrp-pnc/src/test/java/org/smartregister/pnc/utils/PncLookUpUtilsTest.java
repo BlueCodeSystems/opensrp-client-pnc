@@ -2,15 +2,9 @@ package org.smartregister.pnc.utils;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.pnc.BuildConfig;
@@ -23,62 +17,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(PncLibrary.class)
+import static org.mockito.Mockito.mock;
+
 public class PncLookUpUtilsTest {
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void testGetMainConditionStringWhenEntityMapIsEmpty() throws Exception {
+    public void testGetMainConditionStringWhenEntityMapIsEmpty() {
         Map<String, String> entityMap = new HashMap<>();
-        String result = Whitebox.invokeMethod(PncLookUpUtils.class, "getMainConditionString", entityMap);
+        String result = ReflectionHelpers.callStaticMethod(PncLookUpUtils.class, "getMainConditionString",
+                ClassParameter.from(Map.class, entityMap));
         Assert.assertEquals("", result);
     }
 
     @Test
-    public void testGetMainConditionStringWhenEntityMapIsWithValue() throws Exception {
-        String firstName = "first_name";
-        String lastName = "last_name";
-        String bht_id = "bht_mid";
-        String national_id = "national_id";
+    public void testGetMainConditionStringWhenEntityMapHasValues() {
         Map<String, String> entityMap = new HashMap<>();
-        entityMap.put(firstName, "");
-        entityMap.put(lastName, "");
-        entityMap.put(bht_id, "");
-        entityMap.put(national_id, "");
-        String result = Whitebox.invokeMethod(PncLookUpUtils.class, "getMainConditionString", entityMap);
+        entityMap.put("first_name", "");
+        entityMap.put("last_name", "");
+        entityMap.put("bht_mid", "");
+        entityMap.put("national_id", "");
+        String result = ReflectionHelpers.callStaticMethod(PncLookUpUtils.class, "getMainConditionString",
+                ClassParameter.from(Map.class, entityMap));
         Assert.assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testClientLookUpWhenContextIsNull() throws Exception {
+    public void testClientLookUpWhenContextIsNull() {
         Map<String, String> entityLookUp = new HashMap<>();
         List<CommonPersonObject> result = PncLookUpUtils.clientLookUp(null, entityLookUp);
-        List<CommonPersonObject> expectedResult = new ArrayList<>();
-        Assert.assertEquals(expectedResult, result);
+        Assert.assertEquals(new ArrayList<>(), result);
     }
 
     @Test
     public void testClientLookUpWhenMapIsEmpty() {
         Map<String, String> entityLookUp = new HashMap<>();
-        List<CommonPersonObject> result = PncLookUpUtils.clientLookUp(PowerMockito.mock(Context.class), entityLookUp);
-        List<CommonPersonObject> expectedResult = new ArrayList<>();
-        Assert.assertEquals(expectedResult, result);
+        List<CommonPersonObject> result = PncLookUpUtils.clientLookUp(mock(Context.class), entityLookUp);
+        Assert.assertEquals(new ArrayList<>(), result);
     }
 
     @Test
-    public void testClientLookUpWhenMapIsNotEmptyAndContextIsNotNullWithTable() throws Exception {
-        PncLibrary.init(PowerMockito.mock(Context.class), PowerMockito.mock(Repository.class), PowerMockito.mock(PncConfiguration.class),
+    public void testClientLookUpWhenMapIsNotEmptyAndContextIsNotNullWithTable() {
+        PncLibrary.init(mock(Context.class), mock(Repository.class), mock(PncConfiguration.class),
                 BuildConfig.VERSION_CODE, 1);
         Map<String, String> entityLookUp = new HashMap<>();
         entityLookUp.put("first_name", "");
-        List<CommonPersonObject> result = PncLookUpUtils.clientLookUp(PowerMockito.mock(Context.class), entityLookUp);
-        List<CommonPersonObject> expectedResult = new ArrayList<>();
-        Assert.assertEquals(expectedResult, result);
+        List<CommonPersonObject> result = PncLookUpUtils.clientLookUp(mock(Context.class), entityLookUp);
+        Assert.assertEquals(new ArrayList<>(), result);
     }
 
     @After

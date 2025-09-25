@@ -29,9 +29,8 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.robolectric.util.ReflectionHelpers.setField;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,7 +52,6 @@ public class PncProfileVisitsAdapterTest {
 
     @Before
     public void setUp() {
-        initMocks(this);
 
         adapter = new PncProfileVisitsAdapter(context, items);
         setField(adapter, "mInflater", mInflater);

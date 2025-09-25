@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.smartregister.pnc.BaseRobolectricTest;
 import org.smartregister.pnc.utils.PncConstants;
@@ -26,7 +25,7 @@ import java.util.concurrent.Executor;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.mockito.Mockito.spy;
 
 public class PncBarcodeFactoryTest extends BaseRobolectricTest {
 
@@ -43,7 +42,6 @@ public class PncBarcodeFactoryTest extends BaseRobolectricTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
 
         pncBarcodeFactory = spy(new PncBarcodeFactory());
     }

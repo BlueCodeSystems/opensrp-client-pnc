@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.util.ReflectionHelpers;
 import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonFtsObject;
@@ -36,8 +35,6 @@ public class PncRepositoryTest extends BaseTest {
     public void setUp() {
 
         pncRepository = new PncRepository();
-
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
