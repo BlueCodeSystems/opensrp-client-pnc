@@ -1,116 +1,113 @@
-apply plugin: 'com.android.application'
-apply plugin: 'org.smartregister.gradle.jarjar'
+plugins {
+  id 'com.android.application'
+}
 
 android {
-    compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
+  namespace 'org.smartregister.pnc.sample'
+  compileSdk 35
+  buildToolsVersion '35.0.0'
 
-    defaultConfig {
-        applicationId "org.smartregister.pnc.sample"
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
-        versionCode 1
-        versionName "1.0"
+  buildFeatures {
+    buildConfig true
+  }
 
-        multiDexEnabled true
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+  defaultConfig {
+    applicationId 'org.smartregister.pnc.sample'
+    minSdk 28
+    targetSdk 35
+    versionCode 1
+    versionName '1.0'
+    multiDexEnabled true
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-            }
-        }
-        if (project.rootProject.file("local.properties").exists()) {
-
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
-            if (properties != null && properties.containsKey("oauth.client.id")) {
-
-                buildConfigField "String", "OAUTH_CLIENT_ID", properties["oauth.client.id"]
-
-            } else {
-                project.logger.error("oauth.client.id variable is not set in your local.properties")
-                buildConfigField "String", "OAUTH_CLIENT_ID", "\"sample_client_id\""
-            }
-
-
-            if (properties != null && properties.containsKey("oauth.client.secret")) {
-
-                buildConfigField "String", "OAUTH_CLIENT_SECRET", properties["oauth.client.secret"]
-
-            } else {
-                project.logger.error("oauth.client.secret variable is not set in your local.properties")
-                buildConfigField "String", "OAUTH_CLIENT_SECRET", "\"sample_client_secret\""
-            }
-        }
+    if (project.rootProject.file('local.properties').exists()) {
+      Properties properties = new Properties()
+      properties.load(project.rootProject.file('local.properties').newDataInputStream())
+      if (properties.containsKey('oauth.client.id')) {
+        buildConfigField 'String', 'OAUTH_CLIENT_ID', properties['oauth.client.id']
+      } else {
+        project.logger.error('oauth.client.id variable is not set in your local.properties')
+        buildConfigField 'String', 'OAUTH_CLIENT_ID', '"sample_client_id"'
+      }
+      if (properties.containsKey('oauth.client.secret')) {
+        buildConfigField 'String', 'OAUTH_CLIENT_SECRET', properties['oauth.client.secret']
+      } else {
+        project.logger.error('oauth.client.secret variable is not set in your local.properties')
+        buildConfigField 'String', 'OAUTH_CLIENT_SECRET', '"sample_client_secret"'
+      }
     }
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
-            buildConfigField "int", "DATABASE_VERSION", '1'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
-            buildConfigField "boolean", "TIME_CHECK", "false"
-            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
-            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '15'
-            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '7'
-            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '10'
-            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
-            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
-            buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
-            buildConfigField "int", "MAX_SYNC_RETRIES", '3'
-        }
-
-        debug {
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
-            buildConfigField "int", "DATABASE_VERSION", '1'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
-            buildConfigField "boolean", "TIME_CHECK", "false"
-            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
-            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '15'
-            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '7'
-            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '10'
-            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
-            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
-            buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
-            buildConfigField "int", "MAX_SYNC_RETRIES", '3'
-        }
+  buildTypes {
+    debug {
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE', '250'
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_BATCH_SIZE', '100'
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_SOURCE', '2'
+      buildConfigField 'int', 'DATABASE_VERSION', '1'
+      buildConfigField 'long', 'MAX_SERVER_TIME_DIFFERENCE', '1800000l'
+      buildConfigField 'boolean', 'TIME_CHECK', 'false'
+      buildConfigField 'int', 'DATA_SYNC_DURATION_MINUTES', '15'
+      buildConfigField 'int', 'VACCINE_SYNC_PROCESSING_MINUTES', '15'
+      buildConfigField 'int', 'IMAGE_UPLOAD_MINUTES', '7'
+      buildConfigField 'int', 'PULL_UNIQUE_IDS_MINUTES', '10'
+      buildConfigField 'int', 'VIEW_SYNC_CONFIGURATIONS_MINUTES', '15'
+      buildConfigField 'int', 'CLIENT_SETTINGS_SYNC_MINUTES', '15'
+      buildConfigField 'boolean', 'IS_SYNC_SETTINGS', 'false'
+      buildConfigField 'int', 'MAX_SYNC_RETRIES', '3'
     }
-
-    lintOptions.abortOnError false
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE', '250'
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_BATCH_SIZE', '100'
+      buildConfigField 'int', 'OPENMRS_UNIQUE_ID_SOURCE', '2'
+      buildConfigField 'int', 'DATABASE_VERSION', '1'
+      buildConfigField 'long', 'MAX_SERVER_TIME_DIFFERENCE', '1800000l'
+      buildConfigField 'boolean', 'TIME_CHECK', 'false'
+      buildConfigField 'int', 'DATA_SYNC_DURATION_MINUTES', '15'
+      buildConfigField 'int', 'VACCINE_SYNC_PROCESSING_MINUTES', '15'
+      buildConfigField 'int', 'IMAGE_UPLOAD_MINUTES', '7'
+      buildConfigField 'int', 'PULL_UNIQUE_IDS_MINUTES', '10'
+      buildConfigField 'int', 'VIEW_SYNC_CONFIGURATIONS_MINUTES', '15'
+      buildConfigField 'int', 'CLIENT_SETTINGS_SYNC_MINUTES', '15'
+      buildConfigField 'boolean', 'IS_SYNC_SETTINGS', 'false'
+      buildConfigField 'int', 'MAX_SYNC_RETRIES', '3'
     }
+  }
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE.md'
-        exclude 'META-INF/NOTICE.md'
-        exclude 'META-INF/DEPENDENCIES'
+  lint {
+    abortOnError false
+    checkReleaseBuilds false
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+    coreLibraryDesugaringEnabled true
+  }
+
+  packaging {
+    resources {
+      excludes += ['META-INF/LICENSE.md', 'META-INF/NOTICE.md', 'META-INF/DEPENDENCIES', 'META-INF/AL2.0', 'META-INF/LGPL2.1', 'META-INF/INDEX.LIST']
     }
+  }
 }
 
 dependencies {
+  implementation project(':opensrp-pnc')
 
-    implementation project(":opensrp-pnc")
+  implementation 'com.ibm.fhir:fhir-model:4.2.3'
 
-    jarJar 'com.ibm.fhir:fhir-model:4.2.3'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation 'androidx.appcompat:appcompat:1.6.1'
+  implementation 'androidx.core:core:1.13.1'
+  implementation 'androidx.recyclerview:recyclerview:1.3.2'
+  implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+  implementation 'com.google.android.material:material:1.12.0'
 
-    implementation fileTree(dir: "./build/libs", include: ['*.jar'])
+  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+  testImplementation 'junit:junit:4.13.2'
+  androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

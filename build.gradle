@@ -1,90 +1,65 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
-buildscript {
-    
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
-        classpath 'com.palantir:jacoco-coverage:0.4.0'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
-        classpath 'org.smartregister:gradle-jarjar-plugin:1.0.0-SNAPSHOT'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+plugins {
+  id 'com.android.application' version '8.6.0' apply false
+  id 'com.android.library' version '8.6.0' apply false
+  id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
-configure(allprojects) { project ->
+allprojects { project ->
+  group = findProperty('GROUP') ?: 'org.smartregister'
+  version = findProperty('VERSION_NAME') ?: '0.0.1-SNAPSHOT'
 
-    version = VERSION_NAME
-    group = GROUP
-    buildscript {
-        repositories {
-            google()
-            jcenter()
-            mavenCentral()
-            maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-            mavenLocal()
-        }
+  configurations.configureEach {
+    resolutionStrategy {
+      dependencySubstitution {
+        substitute(module('org.smartregister:opensrp-client-core')).using(module('io.github.bluecodesystems:opensrp-client-core:6.2.2'))
+        substitute(module('com.github.BlueCodeSystems:opensrp-client-core')).using(module('io.github.bluecodesystems:opensrp-client-core:6.2.2'))
+        substitute(module('org.smartregister:opensrp-client-native-form')).using(module('io.github.bluecodesystems:opensrp-client-native-form-new:3.1.3'))
+        substitute(module('org.smartregister:opensrp-client-configurable-views')).using(module('com.github.BlueCodeSystems:opensrp-client-configurable-views:v2.0.1'))
+        substitute(module('io.github.bluecodesystems:android-p2p-sync')).using(module('com.github.BlueCodeSystems:android-p2p-sync:v0.4.3'))
+      }
+      force 'com.commonsware.cwac:saferoom.x:1.3.0'
     }
+    exclude group: 'com.commonsware.cwac', module: 'saferoom'
+  }
 }
 
-allprojects {
-    repositories {
-        maven { url 'https://maven.google.com' }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        mavenLocal()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://acra.googlecode.com/svn/repository/releases" }
-        maven { url "https://repo.maven.apache.org/maven2" }
-        maven { url "https://cloudant.github.io/cloudant-sync-eap/repository" }
-        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
-        maven { url 'https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases'}
-        google()
-        jcenter()
-        
+subprojects { subproject ->
+  tasks.withType(Test).configureEach { testTask ->
+    maxParallelForks = 1
+    forkEvery = 0
+    jvmArgs(
+      '--add-opens=java.base/java.lang=ALL-UNNAMED',
+      '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+      '--add-opens=java.base/java.io=ALL-UNNAMED',
+      '--add-opens=java.base/java.net=ALL-UNNAMED',
+      '--add-opens=java.base/java.util=ALL-UNNAMED',
+      '--add-opens=java.base/java.text=ALL-UNNAMED',
+      '--add-opens=java.base/java.security=ALL-UNNAMED',
+      '--add-opens=java.base/jdk.internal.reflect=ALL-UNNAMED',
+      '--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED',
+      '--add-opens=java.base/jdk.internal.util=ALL-UNNAMED',
+      '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+      '--add-opens=java.base/sun.security.util=ALL-UNNAMED',
+      '--add-opens=java.desktop/java.awt.font=ALL-UNNAMED',
+      '--add-exports=java.base/jdk.internal.reflect=ALL-UNNAMED'
+    )
+    testTask.testLogging {
+      showExceptions = true
+      showStandardStreams = false
+      exceptionFormat = TestExceptionFormat.FULL
     }
+  }
+
+  tasks.withType(JavaCompile).configureEach { options.fork = true; options.forkOptions.memoryMaximumSize = '2048m' }
 }
 
-project.ext.preDexLibs = !project.hasProperty('disablePreDex')
-subprojects {
-
-    group = 'org.smartregister'
-
-    ext.androidToolsBuildGradle = '4.0.1'
-    ext.androidBuildToolsVersion = '29.0.3'
-    ext.androidMinSdkVersion = 18
-    ext.androidCompileSdkVersion = 29
-    ext.androidTargetSdkVersion = 29
-
-    ext.androidAnnotationsVersion = '3.0.1'
-    ext.androidAnnotationsAPIVersion = '3.0.1'
-
-    ext.jacocoVersion = "0.8.5"
-    ext.coverallsVersion = "2.8.3"
-
-    // Improve build server performance by allowing disabling of pre-dexing
-    // (see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.)
-    project.plugins.whenPluginAdded { plugin ->
-        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
-            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
-            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-        }
-    }
+nexusStaging {
+  serverUrl = 'https://s01.oss.sonatype.org/service/local/'
+  // username/password supplied via -PsonatypeUsername / -PsonatypePassword
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-apply plugin: 'io.codearte.nexus-staging'
-
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
+tasks.register('clean', Delete) {
+  delete rootProject.layout.buildDirectory
 }

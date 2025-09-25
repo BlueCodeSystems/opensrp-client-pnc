@@ -1,2 +1,64 @@
-include ':sample-app'
-include ':opensrp-pnc'
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+  repositories {
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    mavenLocal()
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+  }
+  resolutionStrategy {
+    eachPlugin {
+      if (requested.id.id == 'org.smartregister.gradle.jarjar') {
+        useModule('org.smartregister:gradle-jarjar-plugin:1.0.0-SNAPSHOT')
+      }
+    }
+  }
+}
+
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+  repositories {
+    mavenLocal()
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://cloudant.github.io/cloudant-sync-eap/repository' }
+    maven { url 'https://s3.amazonaws.com/repo.commonsware.com' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
+}
+
+include ':sample-app', ':opensrp-pnc'
+
+// Optional: prefer local sibling builds when enabled
+boolean siblingExists(String path) { file(path)?.exists() }
+def useLocalSiblings = (gradle.startParameter.projectProperties['useLocalSiblings']
+  ?: System.getenv('USE_LOCAL_SIBLINGS'))?.toString()?.toBoolean() ?: false
+
+if (useLocalSiblings) {
+  if (siblingExists('../opensrp-client-core')) {
+    includeBuild('../opensrp-client-core') {
+      dependencySubstitution {
+        substitute(module('io.github.bluecodesystems:opensrp-client-core')).using(project(':opensrp-core'))
+      }
+    }
+  }
+  if (siblingExists('../opensrp-client-native-form')) {
+    includeBuild('../opensrp-client-native-form') {
+      dependencySubstitution {
+        substitute(module('io.github.bluecodesystems:opensrp-client-native-form-new')).using(project(':native-form'))
+      }
+    }
+  }
+  if (siblingExists('../opensrp-client-configurable-views')) {
+    includeBuild('../opensrp-client-configurable-views') {
+      dependencySubstitution {
+        substitute(module('com.github.BlueCodeSystems:opensrp-client-configurable-views')).using(project(':configurable-views'))
+      }
+    }
+  }
+}
