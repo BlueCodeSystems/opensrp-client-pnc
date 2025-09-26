@@ -8,5 +8,8 @@ before_install:
 
 install:
   - chmod +x gradlew
-  - OWNER=$(git config --get remote.origin.url | sed -E 's#.*[:/ ]([^/]+)/[^/]+(\.git)?$#\1#'); echo "Using GROUP=com.github.${OWNER} VERSION=${VERSION} (skipSigning)"
-  - ./gradlew --no-daemon -x test -x lint -PskipSigning=true -PGROUP=com.github.${OWNER} -PVERSION_NAME=${VERSION} publishToMavenLocal
+  - OWNER=$(git config --get remote.origin.url | sed -E 's#.*[:/ ]([^/]+)/[^/]+(\.git)?$#\1#')
+  - REPO=$(git config --get remote.origin.url | sed -E 's#.*/([^/]+?)(\.git)?$#\1#')
+  - GROUP="com.github.${OWNER}.${REPO}"
+  - echo "Using GROUP=${GROUP} VERSION=${VERSION} (skipSigning)"
+  - ./gradlew --no-daemon -x test -x lint -PskipSigning=true -PGROUP=${GROUP} -PVERSION_NAME=${VERSION} publishToMavenLocal
