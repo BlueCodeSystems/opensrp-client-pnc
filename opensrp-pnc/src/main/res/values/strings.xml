@@ -66,7 +66,7 @@
     <string name="medication_duration">Duration: %1$s</string>
     <string name="dose_or_duration_html"><![CDATA[<font color=\'#7f7f7f\'>%1$s</font>]]></string>
     <string name="next_page"><![CDATA[NEXT >>]]></string>
-    <string name="current_page_of_total_pages">Page %d of %d</string>
+    <string name="current_page_of_total_pages">Page %1$d of %2$d</string>
     <string name="previous_page"><![CDATA[<< Previous]]></string>
     <string name="unknown">Unknown</string>
     <string name="positive">positive</string>
