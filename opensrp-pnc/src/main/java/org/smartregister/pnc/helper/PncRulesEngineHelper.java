@@ -9,8 +9,8 @@ import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rule;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
+import org.jeasy.rules.api.RulesEngineParameters;
 import org.jeasy.rules.core.DefaultRulesEngine;
-import org.jeasy.rules.core.RulesEngineParameters;
 import org.jeasy.rules.mvel.MVELRule;
 
 import java.util.UUID;

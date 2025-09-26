@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import net.sqlcipher.SQLException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.CoreLibrary;
@@ -73,7 +72,7 @@ public class PncRepository extends BaseRepository {
                             .update(CommonFtsObject.searchTableName(tableName), contentValues, CommonFtsObject.idColumn + " = ?", new String[]{baseEntityId});
                 }
             }
-        } catch (SQLException | IllegalArgumentException e) {
+        } catch (Exception e) {
             Timber.e(e);
         }
     }

@@ -1,6 +1,7 @@
 package org.smartregister.pnc.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
@@ -46,8 +47,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.nio.file.Files;
 
-import id.zelory.compressor.Compressor;
 
 public class PncJsonFormUtilsTest extends BaseTest {
 
@@ -483,15 +484,16 @@ public class PncJsonFormUtilsTest extends BaseTest {
     public void testSaveImageShouldPassCorrectArgs() throws Exception {
         String providerId = "demo";
         String baseEntityId = "2323-wxdfd9-34";
-        String imageLocation = "/";
-        Compressor compressor = Mockito.mock(Compressor.class);
+        File imageFile = File.createTempFile("pnc", ".jpg");
+        imageFile.deleteOnExit();
+        String imageLocation = imageFile.getAbsolutePath();
         Bitmap bitmap = Mockito.mock(Bitmap.class);
-        Mockito.when(compressor.compressToBitmap(Mockito.any(File.class))).thenReturn(bitmap);
-        Mockito.when(pncLibrary.getCompressor()).thenReturn(compressor);
 
         android.content.Context context = Mockito.mock(android.content.Context.class);
         File file = Mockito.mock(File.class);
-        Mockito.when(file.getAbsolutePath()).thenReturn("/home/opensrp");
+        File appDir = Files.createTempDirectory("opensrp").toFile();
+        appDir.deleteOnExit();
+        Mockito.when(file.getAbsolutePath()).thenReturn(appDir.getAbsolutePath());
         Mockito.when(context.getDir("opensrp", android.content.Context.MODE_PRIVATE)).thenReturn(file);
         Mockito.when(drishtiApplication.getApplicationContext()).thenReturn(context);
 
@@ -503,7 +505,19 @@ public class PncJsonFormUtilsTest extends BaseTest {
         ReflectionHelpers.setStaticField(DrishtiApplication.class, "mInstance", drishtiApplication);
         ReflectionHelpers.setStaticField(PncLibrary.class, "instance", pncLibrary);
 
-        try (MockedStatic<PncUtils> utils = Mockito.mockStatic(PncUtils.class)) {
+        try (MockedStatic<PncUtils> utils = Mockito.mockStatic(PncUtils.class);
+             MockedStatic<BitmapFactory> bitmapFactory = Mockito.mockStatic(BitmapFactory.class)) {
+            bitmapFactory.when(() -> BitmapFactory.decodeFile(Mockito.eq(imageLocation), Mockito.any(BitmapFactory.Options.class)))
+                    .thenAnswer(invocation -> {
+                        BitmapFactory.Options options = invocation.getArgument(1);
+                        if (options.inJustDecodeBounds) {
+                            options.outWidth = 2000;
+                            options.outHeight = 2000;
+                            return null;
+                        }
+                        return bitmap;
+                    });
+
             utils.when(PncUtils::context).thenReturn(opensrpContext);
             utils.when(() -> PncUtils.saveImageAndCloseOutputStream(Mockito.any(Bitmap.class), Mockito.any(File.class)))
                     .thenAnswer(invocation -> null);
@@ -518,7 +532,7 @@ public class PncJsonFormUtilsTest extends BaseTest {
         Assert.assertNotNull(profileImage);
         Assert.assertEquals("demo", profileImage.getAnmId());
         Assert.assertEquals(baseEntityId, profileImage.getEntityID());
-        Assert.assertEquals("/home/opensrp/2323-wxdfd9-34.JPEG", profileImage.getFilepath());
+        Assert.assertEquals(appDir.getAbsolutePath() + File.separator + baseEntityId + ".JPEG", profileImage.getFilepath());
         Assert.assertEquals(ImageRepository.TYPE_Unsynced, profileImage.getSyncStatus());
     }
 }

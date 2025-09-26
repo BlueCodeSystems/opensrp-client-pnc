@@ -1,6 +1,7 @@
 package org.smartregister.pnc.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -329,12 +330,7 @@ public class PncJsonFormUtils extends JsonFormUtils {
             return;
         }
 
-        Bitmap compressedImageFile = null;
-        try {
-            compressedImageFile = PncLibrary.getInstance().getCompressor().compressToBitmap(file);
-        } catch (IOException e) {
-            Timber.e(e);
-        }
+        Bitmap compressedImageFile = decodeSampledBitmap(file, 1024, 1024);
 
         saveStaticImageToDisk(compressedImageFile, providerId, entityId);
 
@@ -377,6 +373,36 @@ public class PncJsonFormUtils extends JsonFormUtils {
             }
         }
 
+    }
+
+    @Nullable
+    private static Bitmap decodeSampledBitmap(@NonNull File file, int reqWidth, int reqHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+
+    private static int calculateInSampleSize(@NonNull BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        int inSampleSize = 1;
+
+        int height = options.outHeight;
+        int width = options.outWidth;
+
+        if (height > reqHeight || width > reqWidth) {
+            int halfHeight = height / 2;
+            int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return Math.max(inSampleSize, 1);
     }
 
     public static JSONArray fields(@NonNull JSONObject jsonForm, @NonNull String step) {

@@ -46,7 +46,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import id.zelory.compressor.Compressor;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 2019-11-29
@@ -74,7 +73,6 @@ public class PncLibrary {
     private PncVisitScheduler pncVisitScheduler;
     private AppExecutors appExecutors;
 
-    private Compressor compressor;
     private int applicationVersion;
     private int databaseVersion;
 
@@ -222,15 +220,6 @@ public class PncLibrary {
     @NonNull
     public PncConfiguration getPncConfiguration() {
         return pncConfiguration;
-    }
-
-    @NonNull
-    public Compressor getCompressor() {
-        if (compressor == null) {
-            compressor = new Compressor(context().applicationContext());
-        }
-
-        return compressor;
     }
 
     @NonNull

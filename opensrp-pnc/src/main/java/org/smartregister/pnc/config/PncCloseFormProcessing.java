@@ -17,7 +17,6 @@ import org.smartregister.pnc.utils.PncConstants;
 import org.smartregister.pnc.utils.PncJsonFormUtils;
 import org.smartregister.pnc.utils.PncUtils;
 import org.smartregister.repository.EventClientRepository;
-import org.smartregister.sync.ClientProcessor;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
@@ -62,7 +61,11 @@ public class PncCloseFormProcessing implements PncFormProcessingTask {
 
         EventClientRepository db = PncLibrary.getInstance().eventClientRepository();
 
-        JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
+        String baseEntityId = StringUtils.isNotBlank(event.getBaseEntityId())
+                ? event.getBaseEntityId()
+                : eventJson.optString(PncConstants.KeyConstants.BASE_ENTITY_ID);
+
+        JSONObject client = db.getClientByBaseEntityId(baseEntityId);
         String dateOfDeath = JsonFormUtils.getFieldValue(fieldsArray, PncConstants.JsonFormKeyConstants.DATE_OF_DEATH);
         client.put(PncConstants.JsonFormKeyConstants.DEATH_DATE, StringUtils.isNotBlank(dateOfDeath) ? PncUtils.reverseHyphenSeparatedValues(dateOfDeath, "-") : PncUtils.getTodaysDate());
         client.put(FormEntityConstants.Person.deathdate_estimated.name(), false);
@@ -85,4 +88,3 @@ public class PncCloseFormProcessing implements PncFormProcessingTask {
         db.addEvent(event.getBaseEntityId(), eventJsonUpdateClientEvent);
     }
 }
-
