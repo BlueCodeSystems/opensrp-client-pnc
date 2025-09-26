@@ -34,6 +34,7 @@ import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.view.activity.DrishtiApplication;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -237,7 +238,8 @@ public class PncLibrary {
     }
 
     private void initializeYamlConfigs() {
-        Constructor constructor = new Constructor(YamlConfig.class);
+        LoaderOptions loaderOptions = new LoaderOptions();
+        Constructor constructor = new Constructor(YamlConfig.class, loaderOptions);
         TypeDescription customTypeDescription = new TypeDescription(YamlConfig.class);
         customTypeDescription.addPropertyParameters(YamlConfigItem.GENERIC_YAML_ITEMS, YamlConfigItem.class);
         constructor.addTypeDescription(customTypeDescription);
