@@ -32,8 +32,8 @@
     <string name="pnc_overview">PNC Overview</string>
 
     <string name="all_results">All results</string>
-    <string name="age_details">Age: %s</string>
-    <string name="id_detail">ID: %s</string>
+    <string name="age_details">Age: %1$s</string>
+    <string name="id_detail">ID: %1$s</string>
 
 
     <string name="last_visit">LAST VISIT</string>
@@ -61,10 +61,10 @@
     <string name="diagnosis_type">Diagnosis Type</string>
     <string name="disease_code">Disease Code</string>
     <string name="treatment">Treatment</string>
-    <string name="single_medicine_visit_preview_summary"><![CDATA[<b><font color=\'black\'>%s</font><br/></b>]]></string>
-    <string name="medication_dose">Dose: %s</string>
-    <string name="medication_duration">Duration: %s</string>
-    <string name="dose_or_duration_html"><![CDATA[<font color=\'#7f7f7f\'>%s</font>]]></string>
+    <string name="single_medicine_visit_preview_summary"><![CDATA[<b><font color=\'black\'>%1$s</font><br/></b>]]></string>
+    <string name="medication_dose">Dose: %1$s</string>
+    <string name="medication_duration">Duration: %1$s</string>
+    <string name="dose_or_duration_html"><![CDATA[<font color=\'#7f7f7f\'>%1$s</font>]]></string>
     <string name="next_page"><![CDATA[NEXT >>]]></string>
     <string name="current_page_of_total_pages">Page %d of %d</string>
     <string name="previous_page"><![CDATA[<< Previous]]></string>
@@ -72,9 +72,9 @@
     <string name="positive">positive</string>
     <string name="switch_register_view">SWITCH REGISTER VIEW</string>
     <string name="edit_pnc_registration_failure_message">You cannot edit this patient using the Pnc Registration. Click on the Register Switcher</string>
-    <string name="patient_id_holder">ID: %s</string>
-    <string name="patient_age_holder">Age: %s</string>
-    <string name="patient_ga_holder">GA: %s</string>
+    <string name="patient_id_holder">ID: %1$s</string>
+    <string name="patient_age_holder">Age: %1$s</string>
+    <string name="patient_ga_holder">GA: %1$s</string>
     <string name="zero_weeks">0 Weeks</string>
     <string name="weeks">Weeks</string>
     <string name="week">Week</string>
@@ -85,6 +85,6 @@
     <string name="pnc_close">PNC Close</string>
     <string name="pnc_client_close_message">PNC client has been removed from the register</string>
     <string name="day_p">Day P</string>
-    <string name="delivery_days">P%s</string>
+    <string name="delivery_days">P%1$s</string>
 
 </resources>
