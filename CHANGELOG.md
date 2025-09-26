@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.8] - 2025-09-26
+### Bug Fixes
+- Normalize the page counter string to use positional formatting so all
+  consumers compile without aapt merge failures.
+- Drop the redundant `actionBarSize` override that conflicted with
+  AppCompat's attribute definition.
+
 ## [0.0.7] - 2025-09-26
 ### Bug Fixes
 - Switch all formatted strings to positional placeholders to satisfy
