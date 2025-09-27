@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.0] - 2025-09-27
+### Features
+- Add the CHW-facing PNC compatibility layer (activities, contracts, presenters,
+  interactors, repositories, and resources) so downstream CHW apps can depend on
+  the published artifact without bundling the legacy snapshot.
+
+### Build
+- Resolve the CHW ANC dependency from the published GitHub artifact and wire in
+  the auxiliary libraries that used to ship with the local AAR to keep builds
+  self-contained.
+- Publish artifacts to Maven Local under the repo-qualified group during
+  JitPack builds so the CI pipeline mirrors the coordinates exposed by the new
+  dependencies.
+
 ## [0.0.8] - 2025-09-26
 ### Bug Fixes
 - Normalize the page counter string to use positional formatting so all
