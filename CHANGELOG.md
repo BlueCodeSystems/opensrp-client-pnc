@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0] - 2025-10-01
+### Features
+- Bundle the CHW imagery and record button selector so downstream builds can
+  surface the visited-state visuals without custom assets.
+
+### Bug Fixes
+- Point toolbar, snackbar, and dialog components at shared Smart Register and
+  JsonWizard identifiers to avoid resource overrides when CHW overlays are
+  installed.
+
+### Maintenance
+- Restore legacy CHW resource aliases and dialog styling to prevent missing
+  resource crashes when the compatibility resources are requested.
+
 ## [0.1.0] - 2025-09-27
 ### Features
 - Add the CHW-facing PNC compatibility layer (activities, contracts, presenters,
