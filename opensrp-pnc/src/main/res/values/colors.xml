@@ -15,6 +15,8 @@
     <color name="vaccine_blue_bg_stk">#267ea5</color>
     <color name="vaccine_blue_bg_end">#3495bf</color>
 
+    <color name="translucent_yellow">#80FFFF00</color>
+
     <color name="saved_form_btn_clicked">#EDBA00</color>
     <color name="saved_form_btn_normal">@color/translucent_yellow</color>
 
