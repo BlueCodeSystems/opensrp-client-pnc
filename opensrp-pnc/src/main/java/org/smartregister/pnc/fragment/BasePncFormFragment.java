@@ -138,14 +138,14 @@ public class BasePncFormFragment extends JsonWizardFormFragment implements Clien
 
         View snackbarView = snackbar.getView();
         snackbarView.setMinimumHeight(Float.valueOf(textSize).intValue());
-        snackbarView.setBackgroundResource(R.color.accent);
+        snackbarView.setBackgroundResource(com.vijay.jsonwizard.R.color.accent);
 
-        final Button actionView = snackbarView.findViewById(R.id.snackbar_action);
+        final Button actionView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_action);
         actionView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         actionView.setGravity(Gravity.CENTER);
-        actionView.setTextColor(getResources().getColor(R.color.white));
+        actionView.setTextColor(getResources().getColor(org.smartregister.R.color.white));
 
-        TextView textView = snackbarView.findViewById(R.id.snackbar_text);
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textView.setGravity(Gravity.CENTER);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -154,10 +154,10 @@ public class BasePncFormFragment extends JsonWizardFormFragment implements Clien
                 actionView.performClick();
             }
         });
-        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+        textView.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_dialog_alert, 0, 0, 0);
         textView.setCompoundDrawablePadding(paddingInt);
         textView.setPadding(paddingInt, 0, 0, 0);
-        textView.setTextColor(getResources().getColor(R.color.white));
+        textView.setTextColor(getResources().getColor(org.smartregister.R.color.white));
 
         snackbarView.setOnClickListener(new View.OnClickListener() {
             @Override

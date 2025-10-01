@@ -1,10 +1,8 @@
 package org.smartregister.pnc.utils;
 
-import org.smartregister.pnc.R;
-
 public class PncImageUtils {
 
     public static int getProfileImageResourceIdentifier() {
-        return R.drawable.avatar_woman;
+        return org.smartregister.pnc.R.drawable.pnc_less_twenty_nine_days;
     }
 }

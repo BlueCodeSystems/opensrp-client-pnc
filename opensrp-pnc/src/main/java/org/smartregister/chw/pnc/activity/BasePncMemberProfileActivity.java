@@ -40,7 +40,7 @@ public class BasePncMemberProfileActivity extends BaseAncMemberProfileActivity {
     protected void setupViews() {
         super.setupViews();
 
-        CustomFontTextView toolbarTitle = findViewById(R.id.toolbar_title);
+        CustomFontTextView toolbarTitle = findViewById(org.smartregister.R.id.txt_title_label);
         String title = TextUtils.isEmpty(getTitleViewText())
                 ? getString(R.string.return_to_all_pnc_women)
                 : getTitleViewText();
@@ -114,7 +114,7 @@ public class BasePncMemberProfileActivity extends BaseAncMemberProfileActivity {
     protected void onResume() {
         super.onResume();
         // ensure toolbar mirrors compatibility title when returning to screen
-        CustomFontTextView toolbarTitle = findViewById(R.id.toolbar_title);
+        CustomFontTextView toolbarTitle = findViewById(org.smartregister.R.id.txt_title_label);
         if (toolbarTitle != null) {
             toolbarTitle.setText(getString(R.string.return_to_all_pnc_women));
         }

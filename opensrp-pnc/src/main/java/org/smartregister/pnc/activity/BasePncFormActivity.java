@@ -60,8 +60,10 @@ public class BasePncFormActivity extends JsonWizardFormActivity {
         super.onResume();
         try {
             String encounterType = mJSONObject.getString(PncJsonFormUtils.ENCOUNTER_TYPE);
-            confirmCloseTitle = getString(R.string.confirm_form_close);
-            confirmCloseMessage = encounterType.trim().toLowerCase().contains("update") ? this.getString(R.string.any_changes_you_make) : this.getString(R.string.confirm_form_close_explanation);
+            confirmCloseTitle = getString(com.vijay.jsonwizard.R.string.confirm_form_close);
+            confirmCloseMessage = encounterType.trim().toLowerCase().contains("update")
+                    ? this.getString(R.string.any_changes_you_make)
+                    : this.getString(com.vijay.jsonwizard.R.string.confirm_form_close_explanation);
             setConfirmCloseTitle(confirmCloseTitle);
             setConfirmCloseMessage(confirmCloseMessage);
 
@@ -96,14 +98,16 @@ public class BasePncFormActivity extends JsonWizardFormActivity {
         if (enableOnCloseDialog) {
             String eventType = mJSONObject.optString(PncJsonFormUtils.ENCOUNTER_TYPE);
             if (eventType.equals(PncConstants.EventTypeConstants.PNC_MEDIC_INFO) || eventType.equals(PncConstants.EventTypeConstants.PNC_VISIT)) {
-                AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog).setTitle(confirmCloseTitle)
+                AlertDialog dialog = new AlertDialog.Builder(this, com.vijay.jsonwizard.R.style.AppThemeAlertDialog)
+                        .setTitle(confirmCloseTitle)
                         .setMessage(getString(R.string.save_form_fill_session))
-                        .setNegativeButton(R.string.yes, (dialog1, which) -> {
+                        .setNegativeButton(com.vijay.jsonwizard.R.string.yes, (dialog1, which) -> {
                             saveFormFillSession(eventType);
                             updateLastInteractedTime();
                             BasePncFormActivity.this.finish();
                         })
-                        .setPositiveButton(R.string.no, (dialog12, which) -> Timber.d("No button on dialog in %s", JsonFormActivity.class.getCanonicalName()))
+                        .setPositiveButton(com.vijay.jsonwizard.R.string.no,
+                                (dialog12, which) -> Timber.d("No button on dialog in %s", JsonFormActivity.class.getCanonicalName()))
                         .setNeutralButton(getString(R.string.end_session), (dialog13, which) -> {
                             deleteSession(eventType);
                             BasePncFormActivity.this.finish();

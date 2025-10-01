@@ -78,18 +78,18 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
 
 
         if (getSearchView() != null) {
-            getSearchView().setBackgroundResource(R.color.white);
-            getSearchView().setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_search, 0, 0, 0);
-            getSearchView().setTextColor(getResources().getColor(R.color.text_black));
+            getSearchView().setBackgroundResource(org.smartregister.R.color.white);
+            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.R.drawable.ic_action_search, 0, 0, 0);
+            getSearchView().setTextColor(getResources().getColor(org.smartregister.R.color.text_black));
         }
 
         // Update title name
-        ImageView logo = view.findViewById(R.id.opensrp_logo_image_view);
+        ImageView logo = view.findViewById(org.smartregister.R.id.opensrp_logo_image_view);
         if (logo != null) {
             logo.setVisibility(View.GONE);
         }
 
-        TextView titleView = view.findViewById(R.id.txt_title_label);
+        TextView titleView = view.findViewById(org.smartregister.R.id.txt_title_label);
         if (titleView != null) {
             titleView.setVisibility(View.VISIBLE);
             titleView.setText(getString(getToolBarTitle()));
@@ -97,22 +97,22 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
             titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
         }
 
-        View navbarContainer = view.findViewById(R.id.register_nav_bar_container);
+        View navbarContainer = view.findViewById(org.smartregister.R.id.register_nav_bar_container);
         navbarContainer.setFocusable(false);
 
-        View topLeftLayout = view.findViewById(R.id.top_left_layout);
+        View topLeftLayout = view.findViewById(org.smartregister.R.id.top_left_layout);
         topLeftLayout.setVisibility(View.GONE);
 
-        View topRightLayout = view.findViewById(R.id.top_right_layout);
+        View topRightLayout = view.findViewById(org.smartregister.R.id.top_right_layout);
         topRightLayout.setVisibility(View.VISIBLE);
 
-        View sortFilterBarLayout = view.findViewById(R.id.register_sort_filter_bar_layout);
+        View sortFilterBarLayout = view.findViewById(org.smartregister.R.id.register_sort_filter_bar_layout);
         sortFilterBarLayout.setVisibility(View.GONE);
 
-        View filterSortLayout = view.findViewById(R.id.filter_sort_layout);
+        View filterSortLayout = view.findViewById(org.smartregister.R.id.filter_sort_layout);
         filterSortLayout.setVisibility(View.GONE);
 
-        dueOnlyLayout = view.findViewById(R.id.due_only_layout);
+        dueOnlyLayout = view.findViewById(org.smartregister.R.id.due_only_layout);
         dueOnlyLayout.setVisibility(View.VISIBLE);
         dueOnlyLayout.setOnClickListener(registerActionHandler);
 
@@ -169,7 +169,7 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
             return;
         }
 
-        if (view.getId() == R.id.due_only_layout) {
+        if (view.getId() == org.smartregister.R.id.due_only_layout) {
             toggleFilterSelection(view);
         } else if (view.getTag(R.id.VIEW_TYPE) != null) {
             Object viewClient = view.getTag(R.id.VIEW_CLIENT);
@@ -204,7 +204,7 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
     public void onSyncInProgress(FetchStatus fetchStatus) {
         if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
             enableDueOnlyFilter(dueOnlyLayout, dueFilterActive);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+            Utils.showShortToast(getActivity(), getString(org.smartregister.R.string.sync_complete));
             refreshSyncProgressSpinner();
         } else {
             super.onSyncInProgress(fetchStatus);
@@ -216,7 +216,7 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
         if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus)
                 || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
             enableDueOnlyFilter(dueOnlyLayout, dueFilterActive);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+            Utils.showShortToast(getActivity(), getString(org.smartregister.R.string.sync_complete));
             refreshSyncProgressSpinner();
         } else {
             super.onSyncComplete(fetchStatus);
@@ -281,11 +281,11 @@ public abstract class BasePncRegisterFragment extends BaseRegisterFragment imple
     }
 
     private void switchViews(View dueOnlyLayout, boolean isPress) {
-        TextView dueOnlyTextView = dueOnlyLayout.findViewById(R.id.due_only_text_view);
+        TextView dueOnlyTextView = dueOnlyLayout.findViewById(org.smartregister.R.id.due_only_text_view);
         if (isPress) {
-            dueOnlyTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_due_filter_on, 0);
+            dueOnlyTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, org.smartregister.R.drawable.ic_due_filter_on, 0);
         } else {
-            dueOnlyTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_due_filter_off, 0);
+            dueOnlyTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, org.smartregister.R.drawable.ic_due_filter_off, 0);
 
         }
     }

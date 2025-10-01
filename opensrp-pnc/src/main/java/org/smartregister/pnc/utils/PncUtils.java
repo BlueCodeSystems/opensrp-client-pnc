@@ -402,7 +402,7 @@ public class PncUtils extends org.smartregister.util.Utils {
                 } else if (visitStatus == VisitStatus.PNC_OVERDUE) {
                     button.setText(R.string.pnc_due);
                     button.setTag(R.id.BUTTON_TYPE, R.string.pnc_overdue);
-                    button.setTextColor(ContextCompat.getColor(button.getContext(), R.color.white));
+                    button.setTextColor(ContextCompat.getColor(button.getContext(), org.smartregister.R.color.white));
                     button.setBackgroundColor(ContextCompat.getColor(button.getContext(), R.color.overdue_color));
                 } else if (visitStatus == VisitStatus.RECORD_PNC) {
                     button.setText(R.string.record_pnc);
@@ -412,7 +412,7 @@ public class PncUtils extends org.smartregister.util.Utils {
                 } else if (visitStatus == VisitStatus.PNC_DONE_TODAY) {
                     button.setText(R.string.pnc_done_today);
                     button.setTag(R.id.BUTTON_TYPE, R.string.pnc_done_today);
-                    button.setTextColor(ContextCompat.getColor(button.getContext(), R.color.dark_grey));
+                    button.setTextColor(ContextCompat.getColor(button.getContext(), org.smartregister.R.color.dark_grey));
                     button.setBackground(ContextCompat.getDrawable(button.getContext(), R.drawable.pnc_btn_done_today));
                 } else if (visitStatus == VisitStatus.PNC_CLOSE) {
                     button.setText(R.string.pnc_close);
@@ -429,7 +429,7 @@ public class PncUtils extends org.smartregister.util.Utils {
                 button.setText(R.string.complete_pnc_registration);
             }
             button.setBackgroundResource(R.drawable.saved_form_bg);
-            button.setTextColor(button.getContext().getResources().getColor(R.color.dark_grey_text));
+            button.setTextColor(button.getContext().getResources().getColor(org.smartregister.R.color.dark_grey_text));
         }
     }
 

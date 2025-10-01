@@ -96,7 +96,7 @@ public class PncRegisterProvider implements RecyclerViewProvider<PncRegisterView
     public void getFooterView(RecyclerView.ViewHolder viewHolder, int currentPageCount, int totalPageCount, boolean hasNext, boolean hasPrevious) {
         FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
         footerViewHolder.pageInfoView.setText(
-                MessageFormat.format(context.getString(R.string.str_page_info), currentPageCount,
+                MessageFormat.format(context.getString(org.smartregister.R.string.str_page_info), currentPageCount,
                         totalPageCount));
 
         footerViewHolder.nextPageView.setVisibility(hasNext ? View.VISIBLE : View.INVISIBLE);
@@ -145,7 +145,7 @@ public class PncRegisterProvider implements RecyclerViewProvider<PncRegisterView
 
     @Override
     public RecyclerView.ViewHolder createFooterHolder(ViewGroup parent) {
-        View view = inflater.inflate(R.layout.smart_register_pagination, parent, false);
+        View view = inflater.inflate(org.smartregister.R.layout.smart_register_pagination, parent, false);
         return new FooterViewHolder(view);
     }
 
